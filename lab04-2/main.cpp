@@ -1,5 +1,6 @@
 #include "histogram.h"
 #include "svg.h"
+#include <iostream>
 using namespace std;
 
 int main()
@@ -8,8 +9,12 @@ int main()
     cerr << "Enter number count: ";
     cin >> number_count;
 
+    if (number_count == 0) {
+        cerr << "ERROR: Empty vector";
+    } else {
+
     cerr << "Enter numbers: ";
-    const auto numbers = input_numbers(number_count);
+    const auto numbers = input_numbers(cin, number_count);
 
     size_t bin_count;
     cerr << "Enter column count: ";
@@ -22,6 +27,6 @@ int main()
     auto bins = make_histogram(numbers, bin_count, min, max);
 
     show_histogram_svg(bins, bin_count);
-
+    }
     return 0;
 }
