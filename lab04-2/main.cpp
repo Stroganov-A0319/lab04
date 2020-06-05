@@ -3,30 +3,33 @@
 #include <iostream>
 using namespace std;
 
-int main()
-{
-    size_t number_count;
+struct Input {
+    vector<double> numbers;
+    size_t bin_count;
+};
+Input read_input(istream& in) {
+    Input data;
     cerr << "Enter number count: ";
-    cin >> number_count;
-
-    if (number_count == 0) {
-        cerr << "ERROR: Empty vector";
-    } else {
+    size_t number_count;
+    in >> number_count;
 
     cerr << "Enter numbers: ";
-    const auto numbers = input_numbers(cin, number_count);
+    data.numbers = input_numbers(in, number_count);
 
-    size_t bin_count;
     cerr << "Enter column count: ";
-    cin >> bin_count;
+    in >> data.bin_count;
+
+    return data;
+}
+int main()
+{
+    Input input = read_input(cin);
 
     double min;
     double max;
-    find_minmax(numbers,min,max);
+    find_minmax(input.numbers, min, max);
 
-    auto bins = make_histogram(numbers, bin_count, min, max);
-
-    show_histogram_svg(bins, bin_count);
-    }
+    const auto bins = make_histogram(input.numbers, input.bin_count, min, max);
+    show_histogram_svg(bins, input.bin_count);
     return 0;
 }
