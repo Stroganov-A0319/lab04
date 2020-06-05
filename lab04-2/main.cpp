@@ -5,9 +5,15 @@ using namespace std;
 
 int main()
 {
-    DWORD numberW = GetVersion();
-    printf("numberW = %u\n", numberW);
-    printf("numberW = %08x\n", numberW);
+    DWORD info = GetVersion();
+    printf("numberW = %u\n", info);
+    printf("numberW = %08x\n", info);
+
+    DWORD mask = 0b00000000'00000000'11111111'11111111;
+    DWORD version = info & mask;
+
+    printf("version = %08x\n", version);
+
     return 0;
 
     size_t number_count;
