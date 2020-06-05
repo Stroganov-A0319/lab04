@@ -2,4 +2,8 @@
 /obj
 lab04-2.layout
 lab04-2.depend
+<<<<<<< HEAD:lab04-2/.gitignore
+=======
+lab04-2.layout
+>>>>>>> lab04-2:lab04-2/.gitignore
 cURL/

@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <windows.h>
 using namespace std;
 
 void svg_begin(double width, double height);

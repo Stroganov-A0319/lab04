@@ -18,27 +18,28 @@ void find_minmax(const vector<double>& numbers, double& min, double& max)
             {
                 max = number;
             }
-
         }
-
     }
-
 }
-vector<double> input_numbers(istream& in, size_t count)
+
+vector<double> input_numbers(size_t count)
 {
     vector<double> result(count);
     for (size_t i = 0; i < count; i++)
     {
-        in >> result[i];
+        cin >> result[i];
     }
     return result;
 }
+
 vector <size_t> make_histogram(Input input)
 {
     double min, max;
     find_minmax(input.numbers, min, max);
+
     vector<size_t> bins(input.bin_count);
     for (double number : input.numbers)
+
     {
         size_t bin = (size_t)((number - min) / (max - min) * input.bin_count);
         if (bin == input.bin_count)
