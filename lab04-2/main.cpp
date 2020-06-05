@@ -28,8 +28,16 @@ Input read_input(istream& in, bool prompt) {
 
     return data;
 }
-int main()
-{
+int main(int argc, char* argv[]) {
+
+    if (argc > 1) {
+        cerr << "argc = " << argc << endl;
+        for (size_t i = 0; i < argc; i++) {
+            cerr << "argv[" << i << "] = " << argv[i] << endl;
+        }
+        return 0;
+    }
+
     curl_global_init(CURL_GLOBAL_ALL);
     Input input = read_input(cin, true);
     vector<size_t> bins = make_histogram(input);
