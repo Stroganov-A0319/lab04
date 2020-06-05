@@ -27,6 +27,12 @@ int main()
         printf("Windows v%u.%u (build %u)\n", version_major, version_minor, build);
     }
 
+    char computer_name[MAX_COMPUTERNAME_LENGTH + 1];
+    DWORD size = sizeof(computer_name);
+    GetComputerNameA(computer_name, &size);
+    printf("Computer name: %s\n", computer_name);
+
+
     return 0;
 
     size_t number_count;
