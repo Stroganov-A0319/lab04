@@ -28,17 +28,20 @@ Input read_input(istream& in, bool prompt) {
 
     return data;
 }
-int main(int argc, char* argv[]) {
-
+int main(int argc, char* argv[])
+ {
+    curl_global_init(CURL_GLOBAL_ALL);
     if (argc > 1) {
-        cerr << "argc = " << argc << endl;
-        for (size_t i = 0; i < argc; i++) {
-            cerr << "argv[" << i << "] = " << argv[i] << endl;
+        CURL *curl = curl_easy_init();
+        if(curl)
+        {
+            CURLcode res;
+            curl_easy_setopt(curl, CURLOPT_URL, argv[1]);
+            res = curl_easy_perform(curl);
         }
+        curl_easy_cleanup(curl);
         return 0;
     }
-
-    curl_global_init(CURL_GLOBAL_ALL);
     Input input = read_input(cin, true);
     vector<size_t> bins = make_histogram(input);
     show_histogram_svg(bins, input.bin_count);
