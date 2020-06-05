@@ -21,6 +21,12 @@ int main()
     printf("version_major = %u\n", version_major);
     printf("version_minor = %u\n", version_minor);
 
+    if ((info & 0x80000000) == 0)
+    {
+        DWORD build = platform;
+        printf("Windows v%u.%u (build %u)\n", version_major, version_minor, build);
+    }
+
     return 0;
 
     size_t number_count;
