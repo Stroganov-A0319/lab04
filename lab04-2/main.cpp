@@ -1,39 +1,10 @@
 #include "histogram.h"
 #include "svg.h"
-#include <windows.h>
 using namespace std;
 
 int main()
 {
-    DWORD info = GetVersion();
-    printf("numberW = %u\n", info);
-    printf("numberW = %08x\n", info);
 
-    DWORD mask = 0b00000000'00000000'11111111'11111111;
-    DWORD version = info & mask;
-
-    mask = 0x000000ff;
-    DWORD platform = info >> 16;
-
-    DWORD version_major = version & mask;
-    DWORD version_minor = version >> 8;
-
-    printf("version_major = %u\n", version_major);
-    printf("version_minor = %u\n", version_minor);
-
-    if ((info & 0x80000000) == 0)
-    {
-        DWORD build = platform;
-        printf("Windows v%u.%u (build %u)\n", version_major, version_minor, build);
-    }
-
-    char computer_name[MAX_COMPUTERNAME_LENGTH + 1];
-    DWORD size = sizeof(computer_name);
-    GetComputerNameA(computer_name, &size);
-    printf("Computer name: %s\n", computer_name);
-
-
-    return 0;
 
     size_t number_count;
     cerr << "Enter number count: ";
@@ -46,11 +17,7 @@ int main()
     cerr << "Enter column count: ";
     cin >> bin_count;
 
-    double min;
-    double max;
-    find_minmax(numbers,min,max);
-
-    auto bins = make_histogram(numbers, bin_count, min, max);
+    auto bins = make_histogram(numbers, bin_count);
 
     show_histogram_svg(bins, bin_count);
 
