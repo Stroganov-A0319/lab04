@@ -3,10 +3,6 @@
 #include <iostream>
 using namespace std;
 
-struct Input {
-    vector<double> numbers;
-    size_t bin_count;
-};
 Input read_input(istream& in) {
     Input data;
     cerr << "Enter number count: ";
@@ -24,12 +20,7 @@ Input read_input(istream& in) {
 int main()
 {
     Input input = read_input(cin);
-
-    double min;
-    double max;
-    find_minmax(input.numbers, min, max);
-
-    const auto bins = make_histogram(input.numbers, input.bin_count, min, max);
+    const auto bins = make_histogram(input);
     show_histogram_svg(bins, input.bin_count);
     return 0;
 }
