@@ -34,6 +34,27 @@ void svg_end()
 
 void show_histogram_svg(const vector<size_t>& bins, size_t bin_count)
 {
+
+     DWORD info = GetVersion();
+    DWORD mask = 0b00000000'00000000'11111111'11111111;
+    DWORD version = info & mask;
+    mask = 0x000000ff;
+    DWORD platform = info >> 16;
+    DWORD version_major = version & mask;
+    DWORD version_minor = version >> 8;
+    DWORD build;
+
+    if ((info & 0x80000000) == 0)
+    {
+        build = platform;
+        //   printf("Windows v%u.%u (build %u)\n", version_major, version_minor, build);
+
+    }
+    char computer_name[MAX_COMPUTERNAME_LENGTH + 1];
+    DWORD size = sizeof(computer_name);
+    GetComputerNameA(computer_name, &size);
+    //  printf("Computer name: %s\n", computer_name);
+
     const auto IMAGE_WIDTH = 400;
     const auto IMAGE_HEIGHT = 300;
     const auto TEXT_LEFT = 20;
@@ -62,7 +83,7 @@ void show_histogram_svg(const vector<size_t>& bins, size_t bin_count)
 
         double top = 0;
 
-        for (size_t i=0; i<bin_count; i++)
+        for (size_t i = 0; i < bin_count; i++)
         {
             const double bin_width = double(BLOCK_WIDTH * bins[i] * scaling_factor);
             svg_text(TEXT_LEFT, top + TEXT_BASELINE, to_string(bins[i]));
@@ -72,6 +93,9 @@ void show_histogram_svg(const vector<size_t>& bins, size_t bin_count)
             top += BIN_HEIGHT;
         }
 
+        cout << "<text x='" << TEXT_LEFT << "' y='" << top + TEXT_BASELINE << "'>" << "Windows v" << version_major << "." << version_minor << " (build " << build << ")" << "</text>" << endl;
+        cout << "<text x='" << TEXT_LEFT << "' y='" << top + 20 + TEXT_BASELINE << "'>" << "Computer name: " << computer_name << "</text>" << endl;
+
     }
 
     else
@@ -79,7 +103,7 @@ void show_histogram_svg(const vector<size_t>& bins, size_t bin_count)
 
         double top = 0;
 
-        for (size_t i=0; i<bin_count; i++)
+        for (size_t i = 0; i < bin_count; i++)
         {
             const double bin_width = BLOCK_WIDTH * bins[i];
             svg_text(TEXT_LEFT, top + TEXT_BASELINE, to_string(bins[i]));
@@ -89,6 +113,8 @@ void show_histogram_svg(const vector<size_t>& bins, size_t bin_count)
             top += BIN_HEIGHT;
         }
 
+        cout << "<text x='" << TEXT_LEFT << "' y='" << top + TEXT_BASELINE << "'>" << "Windows v" << version_major << "." << version_minor << " (build " << build << ")" << "</text>" << endl;
+        cout << "<text x='" << TEXT_LEFT << "' y='" << top + 20 + TEXT_BASELINE << "'>" << "Computer name: " << computer_name << "</text>" << endl;
     }
 
 
