@@ -28,8 +28,24 @@ void svg_end()
     cout << "</svg>\n";
 }
 
-void show_histogram_svg(const vector<size_t>& bins, size_t bin_count)
+void show_histogram_svg(const vector<size_t>& bins, size_t bin_count, bool flag, const string& address)
 {
+    CURLcode res;
+    CURL *curl = curl_easy_init();
+    if (curl) {
+        double total;
+        curl_easy_setopt(curl, CURLOPT_URL, address.c_str());
+        res = curl_easy_perform(curl);
+    if(CURLE_OK == res) {
+        res = curl_easy_getinfo(curl, CURLINFO_TOTAL_TIME, &total);
+    if(CURLE_OK == res) {
+      printf("Time: %.1f", total);
+    }
+  }
+  /* always cleanup */
+  curl_easy_cleanup(curl);
+}
+
     DWORD info = GetVersion();
     DWORD mask = 0b00000000'00000000'11111111'11111111;
     DWORD version = info & mask;
@@ -88,9 +104,37 @@ void show_histogram_svg(const vector<size_t>& bins, size_t bin_count)
             top += BIN_HEIGHT;
         }
 
-        cout << "<text x='" << TEXT_LEFT << "' y='" << top + TEXT_BASELINE << "'>" << "Windows v" << version_major << "." << version_minor << " (build " << build << ")" << "</text>" << endl;
-        cout << "<text x='" << TEXT_LEFT << "' y='" << top + 20 + TEXT_BASELINE << "'>" << "Computer name: " << computer_name << "</text>" << endl;
+        if(flag == true)
+        {
+            cout << "<text x='" << TEXT_LEFT << "' y='" << top + TEXT_BASELINE << "'>" << "Windows v" << version_major << "." << version_minor << " (build " << build << ")" << "</text>" << endl;
+            cout << "<text x='" << TEXT_LEFT << "' y='" << top + 20 + TEXT_BASELINE << "'>" << "Computer name: " << computer_name << "</text>" << endl;
+        }
+        else
+        {
+            cout << "<text x='" << TEXT_LEFT << "' y='" << top + TEXT_BASELINE << "'>" << "Windows v" << version_major << "." << version_minor << " (build " << build << ")" << "</text>" << endl;
+            cout << "<text x='" << TEXT_LEFT << "' y='" << top + 20 + TEXT_BASELINE << "'>" << "Computer name: " << computer_name << "</text>" << endl;
+            curl_global_init(CURL_GLOBAL_ALL);
+            CURL *curl = curl_easy_init();
+            if(curl)
+            {
+                CURLcode res;
+                double total;
+                curl_easy_setopt(curl, CURLOPT_URL, address.c_str());
+                res = curl_easy_perform(curl);
+                if(CURLE_OK == res)
+                {
+                    res = curl_easy_getinfo(curl, CURLINFO_TOTAL_TIME, &total);
+                    if(CURLE_OK == res)
+                    {
 
+                       cerr << total;
+
+                    }
+                }
+                curl_easy_cleanup(curl);
+            }
+
+        }
     }
 
     else
@@ -108,8 +152,36 @@ void show_histogram_svg(const vector<size_t>& bins, size_t bin_count)
             top += BIN_HEIGHT;
         }
 
-        cout << "<text x='" << TEXT_LEFT << "' y='" << top + TEXT_BASELINE << "'>" << "Windows v" << version_major << "." << version_minor << " (build " << build << ")" << "</text>" << endl;
-        cout << "<text x='" << TEXT_LEFT << "' y='" << top + 20 + TEXT_BASELINE << "'>" << "Computer name: " << computer_name << "</text>" << endl;
+        if(flag == true)
+        {
+            cout << "<text x='" << TEXT_LEFT << "' y='" << top + TEXT_BASELINE << "'>" << "Windows v" << version_major << "." << version_minor << " (build " << build << ")" << "</text>" << endl;
+            cout << "<text x='" << TEXT_LEFT << "' y='" << top + 20 + TEXT_BASELINE << "'>" << "Computer name: " << computer_name << "</text>" << endl;
+        }
+        else
+        {
+            cout << "<text x='" << TEXT_LEFT << "' y='" << top + TEXT_BASELINE << "'>" << "Windows v" << version_major << "." << version_minor << " (build " << build << ")" << "</text>" << endl;
+            cout << "<text x='" << TEXT_LEFT << "' y='" << top + 20 + TEXT_BASELINE << "'>" << "Computer name: " << computer_name << "</text>" << endl;
+            curl_global_init(CURL_GLOBAL_ALL);
+            CURL *curl = curl_easy_init();
+            if(curl)
+            {
+                CURLcode res;
+                double total;
+                curl_easy_setopt(curl, CURLOPT_URL, address.c_str());
+                res = curl_easy_perform(curl);
+                if(CURLE_OK == res)
+                {
+                    res = curl_easy_getinfo(curl, CURLINFO_TOTAL_TIME, &total);
+                    if(CURLE_OK == res)
+                    {
+                        cerr << total;
+
+                    }
+                }
+                curl_easy_cleanup(curl);
+            }
+
+        }
     }
 
 

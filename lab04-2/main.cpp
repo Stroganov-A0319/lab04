@@ -1,7 +1,6 @@
 #include "histogram.h"
 #include <iostream>
 #include "svg.h"
-#include <curl/curl.h>
 #include <sstream>
 #include <string>
 
@@ -14,18 +13,20 @@ Input download(const string& address);
 
 int main(int argc, char* argv[])
 {
+
     Input input;
     if (argc > 1)
     {
         input = download(argv[1]);
+        const auto bins = make_histogram(input);
+        show_histogram_svg(bins, input.bin_count, false, argv[1]);
     }
     else
     {
         input = read_input(cin, true);
+        const auto bins = make_histogram(input);
+        show_histogram_svg(bins, input.bin_count, false, argv[1]);
     }
-    const auto bins = make_histogram(input);
-    show_histogram_svg(bins, input.bin_count);
-
     return 0;
 }
 
@@ -87,6 +88,8 @@ Input download(const string& address)
 
     return read_input(buffer, false);
 }
+
+
 
 vector<double> input_numbers(istream& in, size_t count)
 {
